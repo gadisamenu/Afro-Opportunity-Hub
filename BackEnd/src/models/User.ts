@@ -1,4 +1,5 @@
 import {Schema,model} from "mongoose";
+import { Roles } from "../types/enum_types"
 import * as bcrypt from "bcrypt";
 
 
@@ -31,12 +32,7 @@ const UserSchema: Schema<IUser> = new Schema({
             type:String,
             enum:Roles,
             required:[true,'Please enter a role']
-        },
-        opportunity_list: {
-            type: [],
-            default:[]
         }
-
     },
     {
         timestamps:{
@@ -47,7 +43,7 @@ const UserSchema: Schema<IUser> = new Schema({
 )
 
 UserSchema.pre('save',async function(next){
-    const salt = await bcrypt.getSalt();
+    const salt = await bcrypt.genSalt();
     this.password = await bcrypt.hash(this.password,salt);
     next()
 });

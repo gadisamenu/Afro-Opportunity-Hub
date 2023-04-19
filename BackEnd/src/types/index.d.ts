@@ -1,5 +1,7 @@
-export {}
+export {
+}
 import {Document, Schema} from "mongoose";
+import { EducationLevel, OpportunityType, Roles } from "./enum_types"
 
 declare global {
   namespace Express {
@@ -8,7 +10,12 @@ declare global {
     }
     interface Request {
       searchResult: any
+      auth_user:IUser
     }
+  }
+
+  interface Error{
+    statusCode:number
   }
   
   interface IUser extends Document{
@@ -18,7 +25,6 @@ declare global {
     password : String,
     avatar: String,
     role: Roles
-    opportunity_list: Array<Schema.Types.ObjectId>
   }
 
   interface IOpportunity extends Document{
@@ -33,19 +39,7 @@ declare global {
     duration:String
         
   }
-  enum EducationLevel{
-    GRADUATE="GRADUATE",
-    UNDERGRADUATE="UNDERGRADUATE",
-    POSTGRADUATE="POSTGRADUATE"
-  }
-  enum Roles{
-    ADMIN ="ADMIN",
-    CLIENT="CLIENT"
-  }
-  enum OpportunityType{
-    INTERNSHIP="INTERNSHIP",
-    SCHOLARSHIP="SCHOLARSHIP"
-  }
-
 }
+
+
 
