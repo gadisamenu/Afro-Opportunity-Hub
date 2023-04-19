@@ -2,9 +2,6 @@ import {isValidObjectId} from "mongoose"
 import Opportunity from "../models/Opportunity";
 
 
-
-
-
 /**
  * 
  * @param body 
