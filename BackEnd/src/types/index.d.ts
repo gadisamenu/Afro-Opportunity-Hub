@@ -33,7 +33,7 @@ declare global {
     type:OpportunityType,
     educationLevel:Array<EducationLevel>,
     deadLine: Date,
-    requirements:Array<String>,
+    requirements:[String],
     sourceSite:String,
     open:Boolean,
     duration:String
