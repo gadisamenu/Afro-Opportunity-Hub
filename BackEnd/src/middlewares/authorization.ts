@@ -1,6 +1,7 @@
 import {Request,Response,NextFunction } from "express"
+import { Roles } from "../types/enum_types"
 
-const isAuthorized=(authorizedRole:string="ADMIN")=>(req:Request,res:Response,next:NextFunction)=>{
+const isAuthorized=(authorizedRole:string=Roles.ADMIN)=>(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.auth_user
         if (user.role === authorizedRole){
@@ -14,7 +15,6 @@ const isAuthorized=(authorizedRole:string="ADMIN")=>(req:Request,res:Response,ne
     catch(error){
         return res.status(403).json({message:"user not authorized"})
     }
-    return
-
+   
 }
 export default isAuthorized;
