@@ -1,6 +1,6 @@
 export {
 }
-import {Document, Schema} from "mongoose";
+import {Document} from "mongoose";
 import { EducationLevel, OpportunityType, Roles } from "./enum_types"
 
 declare global {
@@ -23,8 +23,14 @@ declare global {
     lastName: String,
     email : String,
     password : String,
-    avatar: String,
     role: Roles
+    image:String
+  }
+
+  interface IImage extends Document{
+    name: String,
+    imageAdress: String,
+    cloudinaryId: string,
   }
 
   interface IOpportunity extends Document{
@@ -36,8 +42,9 @@ declare global {
     requirements:[String],
     sourceSite:String,
     open:Boolean,
-    duration:String
-        
+    duration:String,
+    image:String,
+    description:String
   }
 }
 

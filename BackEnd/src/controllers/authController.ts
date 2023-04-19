@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import configs from '../config/configs'
 import userService from '../services/user';
+import imageService from "../services/image"
 
 const jwtSecret = configs.JWT_SECRET;
 
@@ -21,6 +22,9 @@ const userSignup =async (req:Request,res: Response) => {
     res.status(200).json({message:"User registered successfully", data:user})
   }
   catch(error){
+    if (req.body.image){
+      imageService.deleteImage(req.body.image);
+    }
     res.status(error.statusCode).json({message:error.message})
   }
   
