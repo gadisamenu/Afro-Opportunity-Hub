@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import opportunityService from "../services/opportunity";
 import validator from "../validators/index";
+import imageService from "../services/image"
 
 
 /**
@@ -13,6 +14,9 @@ const createOpportunity = async (req: Request, res: Response) => {
   try {   
     const { error, value } = validator.opportunityValidator(req.body,"post");
     if (error){
+      if (req.body.image){
+        imageService.deleteImage(req.body.image);
+      }
         return res.status(400).json({message:error.message})
     }
     let opportunity:IOpportunity = await opportunityService.createOpportunity(value);
@@ -20,6 +24,9 @@ const createOpportunity = async (req: Request, res: Response) => {
       .status(200)
       .json({ message: "Successfully created", data: opportunity });
   } catch (error) {
+    if (req.body.image){
+      imageService.deleteImage(req.body.image);
+    }
     return res.status(error.statusCode ?? 500).json({ message: error.message });
   }
 };
@@ -68,6 +75,9 @@ const updateOpportunity = async (req: Request, res: Response) => {
     const { error, value } = validator.opportunityValidator(req.body,"put");
 
     if (error) {
+      if (req.body.image){
+        imageService.deleteImage(req.body.image);
+      }
         return res.status(400).json({ message: error.message });
     }
 
@@ -77,6 +87,9 @@ const updateOpportunity = async (req: Request, res: Response) => {
       .status(200)
       .json({ message: "Successfully updated", data:opportunity});
   } catch (error) {
+    if (req.body.image){
+      imageService.deleteImage(req.body.image);
+    }
     res.status(error.statusCode??500).json({ message: error.message });
   }
 };

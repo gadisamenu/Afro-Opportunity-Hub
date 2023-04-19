@@ -25,13 +25,14 @@ const UserSchema: Schema<IUser> = new Schema({
             type:String,
             required: [true, 'Please enter a password'],
         },
-        avatar: {
-            type:String,
-        },
         role: {
             type:String,
             enum:Roles,
             required:[true,'Please enter a role']
+        },
+        image:{
+            type:String,
+            ref:"Image"
         }
     },
     {

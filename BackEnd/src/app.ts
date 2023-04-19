@@ -5,12 +5,14 @@ import express, {
 import routes from "./routes";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import expressupload from 'express-fileupload'
 
 const app: Application = express()
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(expressupload())
 app.use(cors());
 
 app.use("/api/v1/auth",routes.authRouter)

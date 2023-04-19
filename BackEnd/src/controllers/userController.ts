@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import userService from "../services/user";
 import validator from "../validators/index";
+import imageService from "../services/image"
+import image from "../services/image";
 
 
 /**
@@ -11,9 +13,11 @@ import validator from "../validators/index";
  */
 export const createUser = async (req: Request, res: Response) => {
   try {   
-    // console.log(req.body)
     const { error, value } = validator.userValidator(req.body,"post");
     if (error){
+        if (value.image){
+          imageService.deleteImage(value.image);
+        }
         return res.status(400).json({message:error.message})
     }
     let user:IUser = await userService.createUser(value);
@@ -21,6 +25,9 @@ export const createUser = async (req: Request, res: Response) => {
       .status(200)
       .json({ message: "Successfully created", data: user });
   } catch (error) {
+    if (req.body.image){
+      imageService.deleteImage(req.body.image);
+    }
     return res.status(error.statusCode ?? 500).json({ message: error.message });
   }
 };
@@ -70,7 +77,10 @@ export const updateUser = async (req: Request, res: Response) => {
     const { error, value } = validator.userValidator(req.body,"put");
 
     if (error) {
-        return res.status(400).json({ message: error.message });
+      if (req.body.image){
+        imageService.deleteImage(req.body.image);
+      }
+      return res.status(400).json({ message: error.message });
     }
 
     const user = await userService.updateUser(id,req.body);
@@ -79,6 +89,9 @@ export const updateUser = async (req: Request, res: Response) => {
       .status(200)
       .json({ message: "Successfully updated", data:user});
   } catch (error) {
+    if (req.body.image){
+      imageService.deleteImage(req.body.image);
+    }
     res.status(error.statusCode??500).json({ message: error.message });
   }
 };

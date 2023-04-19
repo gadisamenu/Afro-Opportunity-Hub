@@ -12,6 +12,9 @@ const OpportunitySchema: Schema<IOpportunity> = new Schema({
             trim:true,
             lowercase:true,
         },
+        description:{
+            type:String,
+        },
         type:{
            type:String,
            enum:OpportunityType
@@ -38,6 +41,10 @@ const OpportunitySchema: Schema<IOpportunity> = new Schema({
         duration:{
             type:String
         },
+        image:{
+            type:String,
+            ref:"Image"
+        }
     },
     {
         timestamps:{
