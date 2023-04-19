@@ -15,7 +15,6 @@ const OpportunitySchema: Schema<IOpportunity> = new Schema({
         type:{
            type:String,
            enum:OpportunityType
-
         },
         educationLevel:{
             type:[String],

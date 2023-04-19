@@ -32,8 +32,7 @@ const createOpportunity = async (req: Request, res: Response) => {
  */
 const getOpportunities = async (req: Request, res: Response) => {
   try {
-    let opportunities:Array<IOpportunity>  = await opportunityService.getOpportunities();
-    res.status(200).json({message: "Successfully fetched", data:opportunities})
+    res.status(200).json({message: "Successfully fetched", data:res.searchResult})
   } catch (error) {
     res.status(error.status??500).json({ message: error.message });
   }
