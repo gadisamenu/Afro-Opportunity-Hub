@@ -1,19 +1,26 @@
 import {Schema,model} from "mongoose";
+import { OpportunityType,EducationLevel } from "../types/enum_types";
 
 const OpportunitySchema: Schema<IOpportunity> = new Schema({
-        provider:String,
+        provider:{
+            type:String,
+            required:[true,"coutry is required"]
+        },
         country:{
             type:String,
             required:[true,"country is required"],
             trim:true,
             lowercase:true,
         },
+        description:{
+            type:String,
+        },
         type:{
            type:String,
-           enum: OpportunityType
+           enum:OpportunityType
         },
         educationLevel:{
-            type:[],
+            type:[String],
             enum:EducationLevel
         },
         deadLine: {
@@ -21,7 +28,7 @@ const OpportunitySchema: Schema<IOpportunity> = new Schema({
             required:[true,"deadLine is required"]
         },
         requirements:{ 
-            type: [],
+            type: [String],
             default:[]
         },
         sourceSite:{
@@ -34,7 +41,10 @@ const OpportunitySchema: Schema<IOpportunity> = new Schema({
         duration:{
             type:String
         },
-       
+        image:{
+            type:String,
+            ref:"Image"
+        }
     },
     {
         timestamps:{
