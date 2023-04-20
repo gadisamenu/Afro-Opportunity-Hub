@@ -36,7 +36,10 @@ const userLogin = async (req: Request, res: Response) => {
       const { email, password } = req.body;
 
       const user: IUser = await userService.login(email, password);
+      
       const token = createToken(user);
+      
+      await user.populate("image","-created_at -updated_at -__v")
 
       res.header('token', token);
       res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });

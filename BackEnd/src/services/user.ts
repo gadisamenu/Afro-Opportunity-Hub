@@ -21,7 +21,7 @@ const createUser = async(body)=>{
         throw error;
     }
     user = await User.create(body);
-    user = await User.findById(user._id).select("-password")
+    user = await User.findById(user._id).populate("image","-created_at -updated_at -__v").select("-password")
     return user
 }
 
@@ -32,7 +32,7 @@ const createUser = async(body)=>{
  * @returns 
  */
 const getUsers  = async()=>{
-    const users:Array<IUser> =  await User.find().select("-password");
+    const users:Array<IUser> =  await User.find().populate("image","-created_at -updated_at -__v").select("-password");
     return users;
 }
 
@@ -47,7 +47,7 @@ const getUser= async(id:string)=>{
     
     if (isValidObjectId(id))
         {
-            const user:IUser = await User.findById(id).select("-password")
+            const user:IUser = await User.findById(id).populate("image","-created_at -updated_at -__v").select("-password")
             if (user == null){
                 let error =  Error("User not found");
                 error.statusCode = 404;
@@ -71,7 +71,7 @@ const getUser= async(id:string)=>{
 const updateUser = async(id,data)=>{
     if (isValidObjectId(id))
     {
-        const user:IUser = await User.findByIdAndUpdate(id,data,{new:true}).select("-password");
+        const user:IUser = await User.findByIdAndUpdate(id,data,{new:true}).populate("image","-created_at -updated_at -__v").select("-password");
         if (user == null){
             let error =  Error("User not found");
             error.statusCode = 404;
