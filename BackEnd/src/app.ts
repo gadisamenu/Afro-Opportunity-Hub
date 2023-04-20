@@ -18,6 +18,7 @@ app.use(cors());
 app.use("/api/v1/auth",routes.authRouter)
 app.use("/api/v1/users",routes.userRouter)
 app.use("/api/v1/opportunities",routes.oppRouter)
+app.use("/api/v1/savedOpportunites",routes.savedOppsRouter)
 
 
 app.get("/", (req, res) => {

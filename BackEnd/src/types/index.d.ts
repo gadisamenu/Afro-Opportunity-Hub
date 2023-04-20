@@ -46,6 +46,10 @@ declare global {
     image:String,
     description:String
   }
+  interface ISavedOpportunity extends Document{
+        userId:string
+        opportunities:[string]
+  }
 }
 
 
