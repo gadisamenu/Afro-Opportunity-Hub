@@ -40,6 +40,26 @@ const searchAndFilter = async (req: Request, res:Response, next: NextFunction) =
 
         let aggregatePipeline:Array<any> = [
             {$match:jsonQuery},
+            { $set:{ "image":{$toObjectId:"$image"}}},
+            {
+                $lookup:{
+                    from:"images",
+                    localField:"image",
+                    foreignField:"_id",
+                    pipeline:[
+                        {$project:{_id:1,imageAdress:1,cloudinaryId:1,name:1}}
+                    ],
+                    as:"image"
+                }
+            },
+            {
+                $set:{
+                    "image":
+                    {
+                        $cond:[{$eq:["$image",[]]},null,{ $arrayElemAt: [ "$image", 0 ] }]
+                    }
+                }
+            }
         ]
 
         if (req.query.type){

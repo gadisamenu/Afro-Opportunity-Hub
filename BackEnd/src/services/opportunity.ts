@@ -8,7 +8,7 @@ import Opportunity from "../models/Opportunity";
  * @returns 
  */
 const createOpportunity = async(body)=>{
-    const opportunity:IOpportunity = await Opportunity.create(body);
+    const opportunity:IOpportunity = await (await Opportunity.create(body)).populate("image","-created_at -updated_at -__v");
     return opportunity
 }
 
@@ -17,7 +17,7 @@ const createOpportunity = async(body)=>{
  * @returns 
  */
 const getOpportunities  = async()=>{
-    const opportunitys:Array<IOpportunity> =  await Opportunity.find();
+    const opportunitys:Array<IOpportunity> =  await Opportunity.find().populate("image","-created_at -updated_at -__v");
     return opportunitys;
 }
 
@@ -32,7 +32,7 @@ const getOpportunity= async(id:string)=>{
     
     if (isValidObjectId(id))
         {
-            const opportunity:IOpportunity = await Opportunity.findById(id)
+            const opportunity:IOpportunity = await Opportunity.findById(id).populate("image","-created_at -updated_at -__v")
             if (opportunity == null){
                 let error =  Error("Opportunity not found");
                 error.statusCode = 404;
@@ -59,7 +59,7 @@ const updateOpportunity = async(id,data)=>{
         const opportunity:IOpportunity = await Opportunity.findByIdAndUpdate(id,data,{
             new:true,
             runValidators:true
-        });
+        }).populate("image","-created_at -updated_at -__v");
         if (opportunity == null){
             let error =  Error("Opportunity not found");
             error.statusCode = 404;
