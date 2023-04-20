@@ -8,7 +8,7 @@ export const opportunityValidator = (opportunityData,requestType:string) => {
       provider:Joi.string().min(5).max(256).alter(customeRule),
       country : Joi.string().pattern(/^[a-zA-Z]+$/).alter(customeRule).max(50),
       deadLine:Joi.date().alter(customeRule),
-      description:Joi.string().max(500),
+      description:Joi.string().max(2000),
       open:Joi.boolean(),
       duration:Joi.string().alter(customeRule).max(256),
       type : Joi.string().valid(...Object.values(OpportunityType)).alter(customeRule),
