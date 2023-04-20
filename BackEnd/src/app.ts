@@ -13,8 +13,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(expressupload())
-app.use(cors());
 
+const allowedOrigins = [
+  "http://localhost:3000",
+];
+
+app.use(
+  cors({
+    credentials: true,
+    origin: allowedOrigins,
+  })
+);
 app.use("/api/v1/auth",routes.authRouter)
 app.use("/api/v1/users",routes.userRouter)
 app.use("/api/v1/opportunities",routes.oppRouter)
