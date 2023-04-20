@@ -1,7 +1,13 @@
+import Hero from "../../components/home/Hero"
+import OpportunityList from "../../components/home/OpportunityList"
 
 
-export default function Home() {
+export default function Home({}) {
+ 
   return (
-    <div className='text-center'>Home</div>
+    <div>
+      <Hero />
+      <OpportunityList  />
+    </div>
   )
 }
