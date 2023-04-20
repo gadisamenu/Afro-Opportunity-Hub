@@ -3,6 +3,7 @@ import * as bcrypt from "bcrypt";
 import User from "../models/User";
 import validators from "../validators";
 import { Roles } from "../types/enum_types";
+import SavedOpportunity from "../models/SavedOpportunity";
 
 
 
@@ -101,6 +102,7 @@ const deleteUser = async(id:string)=>{
                 error.statusCode = 404;
                 throw error;
         }
+        await SavedOpportunity.deleteOne({userId:id})
     }
     else{
         let error = Error("invalid id");
@@ -138,7 +140,12 @@ export const createAdmin = async () => {
   
       let adminData = { email: "adminuser@gmail.com", password: "adminpassword", firstName: "adminFname", lastName: "adminLname",role:Roles.ADMIN};
       let {error,value}= await validators.userValidator(adminData,"post")
-      await User.deleteMany({role:Roles.ADMIN})
+
+      const users:Array<IUser> = await User.find({role:Roles.ADMIN})
+      await users.forEach( async (user) =>  {
+        await SavedOpportunity.deleteOne({userId:user._id})
+      })
+      await User.deleteMany({role:Roles.ADMIN})    
       await createUser(adminData)
       console.log("/**************************************\\")
       console.log("|********Default Admin Credentias*******|")
